@@ -1,4 +1,5 @@
 import os
+import typing
 import strawberry
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,17 +11,19 @@ from starlette.websockets import WebSocket
 from strawberry.types import Info
 from strawberry.file_uploads import Upload
 
+from models.category import Category
+import category
 
 @strawberry.type
 class Query:
     @strawberry.field(permission_classes=[])
-    def all_authors(self) -> list[str]:
-        pass
+    def category(self) -> typing.List[Category]:
+       return category.get_category()
     
 @strawberry.type
 class Mutation:
     @strawberry.field
-    def add_author(self, name: str) -> str:
+    def add_category(self, name: str) -> str:
         pass
     
 schema = strawberry.Schema(query=Query, mutation=Mutation)
